@@ -5,7 +5,7 @@
 int main() {
     std::cout << "Example project running..." << std::endl;
     // Call a function from the library
-    library_function();
+ 
 
     // Use glm
     glm::vec3 v(1.0f, 0.0f, 0.0f);
