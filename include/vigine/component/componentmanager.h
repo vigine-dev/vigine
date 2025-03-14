@@ -7,9 +7,9 @@
 #include <any>
 
 template<typename T>
-using ComponentUPtr = std::unique_ptr<T>;
+using ComponentSPtr = std::shared_ptr<T>;
 template<typename T>
-using ComponentContainer = std::vector<ComponentUPtr<T>>;
+using ComponentContainer = std::vector<ComponentSPtr<T>>;
 
 class ComponentManager 
 {
@@ -17,34 +17,34 @@ public:
     ComponentManager();
 
     template <typename T, typename... Args>
-    T* createComponent(Args&&... args) 
+    ComponentSPtr<T> createComponent(Args&&... args)
     {
-        auto component = std::make_unique<T>(std::forward<Args>(args)...);
+        auto component = std::make_shared<T>(std::forward<Args>(args)...);
         auto typeIndex = std::type_index(typeid(T));
 
         if (_components.find(typeIndex) == _components.end())
-            _components[typeIndex] = std::move(std::make_any<ComponentContainer<T>>());
+            _components[typeIndex] = std::make_any<ComponentContainer<T>>();
 
         auto& container = std::any_cast<ComponentContainer<T>&>(_components[typeIndex]);
         container.push_back(std::move(component));
 
-        return container.back().get();
+        return container.back();
     }
     
     template <typename T>
-    auto cbegin() 
+    auto cbegin()
     {
         auto typeIndex = std::type_index(typeid(T));
 
         auto it = _components.find(typeIndex);
-        if (it != _components.end()) 
+        if (it != _components.end())
             return std::any_cast<ComponentContainer<T>&>(it->second).cbegin();
 
         return getOrCreateEmptyContainer<T>().cbegin();
     }
 
     template <typename T>
-    auto cend() 
+    auto cend()
     {
         auto typeIndex = std::type_index(typeid(T));
 
@@ -57,12 +57,12 @@ public:
 
 
     template <typename T>
-    void removeComponents() 
+    void removeComponents()
     {
         _components.erase(typeid(T));
     }
 
-    void clear() 
+    void clear()
     {
         _components.clear();
         _empty.clear();
@@ -70,12 +70,12 @@ public:
 
 private:
     template <typename T>
-    const ComponentContainer<T>& getOrCreateEmptyContainer() 
+    ComponentContainer<T>& getOrCreateEmptyContainer()
     {
         auto typeIndex = std::type_index(typeid(T));
 
         auto itEmpty = _empty.find(typeIndex);
-        if (itEmpty != _empty.end()) 
+        if (itEmpty != _empty.end())
             return std::any_cast<ComponentContainer<T>&>(itEmpty->second);
 
         _empty[typeIndex] = std::move(std::make_any<ComponentContainer<T>>());
