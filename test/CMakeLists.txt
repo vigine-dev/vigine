@@ -11,6 +11,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/external/googletest ${CMAKE_BINARY_DIR}/goo
 add_executable(${PROJECT_TEST_NAME}
     test_vigine.cpp
     component/ComponentManagerTest.cpp
+    EntityTest.cpp
 )
 
 # ====================== Link Google Test Libraries =======================
