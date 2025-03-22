@@ -7,7 +7,7 @@ Vigine::Vigine() {
 }
 
 void Vigine::exampleMethod() {
-    std::cout << "Example method called" << std::endl;
+    std::cout << "Example method called 2" << std::endl;
 }
 
 void exampleFunction() {
