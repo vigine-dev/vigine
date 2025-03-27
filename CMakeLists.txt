@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
 set(PROJECT_NAME vigine)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++23")
 
 
 # Set the project name
@@ -39,6 +39,15 @@ endif()
 set(HEADER
     ${INCLUDE_DIR}/vigine/vigine.h
     ${INCLUDE_DIR}/vigine/entity.h
+    ${INCLUDE_DIR}/vigine/statemachine.h
+    ${INCLUDE_DIR}/vigine/abstractstate.h
+    ${INCLUDE_DIR}/vigine/abstracttaskflow.h
+    ${INCLUDE_DIR}/vigine/abstracttask.h
+    ${INCLUDE_DIR}/vigine/abstractstatus.h
+    ${INCLUDE_DIR}/vigine/abstractservice.h
+    ${INCLUDE_DIR}/vigine/ecs/abstractsystem.h
+    ${INCLUDE_DIR}/vigine/ecs/abstractcomponent.h
+    ${INCLUDE_DIR}/vigine/ecs/abstractentity.h
     ${INCLUDE_DIR}/vigine/system/rendersystem.h
     ${INCLUDE_DIR}/vigine/component/componentmanager.h
     ${INCLUDE_DIR}/vigine/component/rendercomponent.h
@@ -46,6 +55,7 @@ set(HEADER
 set(SOURCES
     ${SRC_DIR}/vigine.cpp
     ${SRC_DIR}/entity.cpp
+    ${SRC_DIR}/statemachine.cpp
     ${SRC_DIR}/system/rendersystem.cpp
     ${SRC_DIR}/component/componentmanager.cpp
     ${SRC_DIR}/component/rendercomponent.cpp
